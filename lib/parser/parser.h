@@ -7,6 +7,7 @@ class Parser{
     public:
         int numBits;
         bool* bits;
-    private:
         void toBits(std::string message);
-}
+};
+
+#endif
