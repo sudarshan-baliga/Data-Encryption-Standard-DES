@@ -1,7 +1,6 @@
 #ifndef BOXES
 #define BOXES
-#include <iostream>
 
-extern int ip[];
+extern int ip[64], s[8][4][16], permutation[32];
 
 #endif

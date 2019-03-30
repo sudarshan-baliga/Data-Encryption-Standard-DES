@@ -3,5 +3,5 @@ using namespace std;
 
 int main()
 {
-    cout << ip[0] << endl;
+    
 }

@@ -1,4 +1,5 @@
 #include "parser.h"
+#include "string"
 using namespace std;
 
 void Parser::toBits(string message)

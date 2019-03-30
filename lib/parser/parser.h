@@ -1,8 +1,6 @@
 #ifndef PARSER
 #define PARSER
-
-#include <iostream>
-
+#include <string>
 class Parser{
     public:
         int numBits;
