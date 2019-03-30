@@ -6,7 +6,7 @@
 class Parser{
     public:
         int numBits;
-        bool* bits;
+        char* bits;
         void toBits(std::string message);
 };
 
