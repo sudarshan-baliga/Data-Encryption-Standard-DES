@@ -11,41 +11,19 @@ using namespace DES;
 int main()
 {
     char *text = Utils::strTobin("sachinpr");
-    text = getPermutation(text, "initial");
-
-
-    int i=0;
+    // steps:
+    //generate the keys
     ull *keys = DESKeyGen::getKeys(1383827165325090801);
-    while(i < 16) {
-        text = DESround(text, Utils::numTobin(keys[i], 48));
-        cout << text << "\n";
-        ++i;
-    }   
+    // IP
+    text = getPermutation(text, "initial");
+    // 16 time fiestal round
+    for (int i = 0; i < 15; i++)
+    {
+        text = DESround(text, Utils::numTobin(keys[i], 48), false);
+        cout << "round" << i << "result" << text << endl;
+    }
+    //no left and right swap in final round
+
+    // FP
     text = getPermutation(text, "final");
-    cout << text << "\n";
-    // char  *leftBlock, *rightBlock;
-    // char arr[65] = "0000000100100011010001010110011110001001101010111100110111101111";
-    // cout << "arr :" << arr << "\n";
-    // cout << "ip " << getPermutation(arr, "initial") << "\n";
-    // leftBlock = Utils::substr(getPermutation(arr, "initial"), 0, 32);
-    // rightBlock = Utils::substr(getPermutation(arr, "initial"), 32, 32);
-    // cout << "expansion: " << expansionPermutation(rightBlock);
-
-    
-    
-
-    
-
-    // steps:   
-        // IP
-
-        // 16 time fiestal round
-        // A single fiestal Round has
-            // 64 bit input
-            // splitting into two 32 bit parts
-            // newLeft = Right
-            // newRight = left xort FF(right)
-            
-        // FP
-    
 }
