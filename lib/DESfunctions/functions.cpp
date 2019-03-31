@@ -23,15 +23,6 @@ char* DES::getPermutation(char *arr, const char *type)  {
     ans[64] = '\0';
     return ans;
 }
-  
-
-char *DES::xorBlocks(char *arr1, char *arr2, int n) {
-    char *ans = new char[n + 1];
-    for (int idx = 0; idx < n; idx++)
-        ans[idx] = ((arr1[idx] ^ arr2[idx]) != 0 ? '1' : '0');
-    ans[n] = '\0';
-    return ans;
-}
 
 char* DES::sBoxFunction(char *str) {
     if(strlen(str) != 48)
@@ -50,7 +41,7 @@ char* DES::sBoxFunction(char *str) {
         col[3] = str[i+4];
         col[4] = '\0'; 
         ans.append(
-            bin(
+            numTobin(
                 sBox[sBoxIter++][binToint(row)][binToint(col)]
                 , 4
             )
@@ -61,13 +52,6 @@ char* DES::sBoxFunction(char *str) {
     return _ans;
 }
 
-char* DES::substr(char* arr, int begin, int len) {
-    char* res = new char[len];
-    for (int i = 0; i < len; i++)
-        res[i] = *(arr + begin + i);
-    res[len] = '\0';
-    return res;
-}
 
 char *DES::expansionPermutation(char *rightBlock) {
     char *ans = new char[49];
@@ -75,4 +59,56 @@ char *DES::expansionPermutation(char *rightBlock) {
         ans[itr] = rightBlock[expansionBox[itr] - 1];
     ans[49] = '\0';
     return ans;
+}
+
+char *DES::FFfinalPermuatation(char *str) {
+    char *ans = new char[33];
+    int iter = 0;
+    while(iter < 32) {
+        ans[iter] = str[permutationBox[iter]-1];
+        ++iter;
+    }
+    str[32] = '\0';
+    return ans;
+}
+
+// FF(32bit)
+    // expansion to 48bit
+    // xor with key
+    // to sBoxes and get 32bit
+    // permutation using dbox
+char* DES::feistalFn(char* str, char *key) {
+    // str should be 32 bit in size
+    return FFfinalPermuatation(
+        sBoxFunction(
+            Utils::xorBlocks(
+                expansionPermutation(str),
+                key,
+                48
+            ) 
+        )
+    );
+}
+
+ // 16 time fiestal round
+        // A single fiestal Round has
+            // 64 bit input
+            // splitting into two 32 bit parts
+            // newLeft = Right
+            // newRight = left xor FF(right)
+
+char* DES::DESround(char *str, char *key) {
+    // str should be 64bit in size
+    char *newStr = new char[65];
+    char *leftBlock = Utils::substr(str, 0, 32);
+    char *rightBlock = Utils::substr(str, 32, 32);
+
+    strcpy(newStr, rightBlock);
+    strcpy(
+        newStr+32,
+        Utils::xorBlocks(leftBlock, feistalFn(rightBlock, key), 32) 
+    );
+    newStr[64] = '\0';
+
+    return newStr;
 }

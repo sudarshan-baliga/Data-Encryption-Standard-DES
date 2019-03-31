@@ -22,7 +22,7 @@ ull DESKeyGen::compressAndpermute(ull key, const int *box, int boxSize, int inpu
 	return ans;
 }
 
-ull* DESKeyGen::getKeysForDES(ull key) {
+ull* DESKeyGen::getKeys(ull key) {
       // initial parity drop (64bit -> 56bit)
 	ull afterParityDrop = compressAndpermute(key, pc1 ,56, 64);
 

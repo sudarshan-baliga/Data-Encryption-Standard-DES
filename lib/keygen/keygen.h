@@ -13,7 +13,7 @@ class DESKeyGen {
     static void setNthBit(ull *num, int n);
     static ull compressAndpermute(ull key, const int *box, int boxSize, int inputBitSize);
 public:
-    static ull* getKeysForDES(ull key);
+    static ull* getKeys(ull key);
 };
 
 #endif
