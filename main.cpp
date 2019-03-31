@@ -3,6 +3,7 @@
 #include "./lib/keygen/keygen.h"
 #include "./lib/parser/parser.h"
 #include "./lib/DESfunctions/functions.h"
+#include "./lib/utils/utils.h"
 #define endl "\n";
 using namespace std;
 using namespace DES;
@@ -18,8 +19,19 @@ int main()
     // string msg = "sachinprabhu";
     // cout << toBits(msg) << "\n";
 
-    char arr[65] = "0000000100100011010001010110011110001001101010111100110111101111";
-    cout << arr << "\n";
-    cout << getIP(arr) << "\n";
-    cout << xorBlocks(arr, arr, 64) << endl;
+    // char arr[65] = "0000000100100011010001010110011110001001101010111100110111101111";
+    // char arr2[65] = "000000010010001101000101011001111000100110101011110011011110000";
+    // cout << arr << "\n";
+    // cout << getPermutation(arr, "initial") << "\n";
+    // cout << xorBlocks(arr, arr2, 64) << endl;
+
+
+    char sin[49] = "011000010001011110111010100001100110010100100111";
+    // cout << sin << "\n";
+    char *sout = sBox(sin);
+    cout << sout << "\n";
+    
+    
+    char arr3[65] = "0000101001001100110110011001010101000011010000100011001000110100";
+    cout << getPermutation(arr3, "final") << "\n";
 }

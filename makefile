@@ -2,9 +2,13 @@ boxDir=./lib/boxes
 parserDir=./lib/parser
 keygenDir=./lib/keygen
 fns=./lib/DESfunctions
+utils=./lib/utils
 
-output: ./main.o $(parserDir)/parser.o $(boxDir)/boxes.o $(keygenDir)/keygen.o $(fns)/functions.o
-	g++ main.o $(parserDir)/parser.o $(boxDir)/boxes.o $(keygenDir)/keygen.o $(fns)/functions.o -o output
+output: ./main.o $(parserDir)/parser.o $(boxDir)/boxes.o $(keygenDir)/keygen.o $(fns)/functions.o $(utils)/utils.o
+	g++ main.o $(parserDir)/parser.o $(boxDir)/boxes.o $(keygenDir)/keygen.o $(fns)/functions.o $(utils)/utils.o -o output
+
+utils: $(utils)/utils.cpp
+	g++ -c $(utils)/utils.cpp
 
 functions: $(fns)/functions.cpp
 	g++ -c $(fns)/functions.cpp

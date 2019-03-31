@@ -4,7 +4,6 @@
 
 typedef unsigned long long ull;
 
-char* bin(ull num);
 
 class DESKeyGen {
     static const int pc1[56];

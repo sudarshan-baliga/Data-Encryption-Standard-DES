@@ -1,14 +1,5 @@
 #include "keygen.h"
 
-char* bin(ull num) {
-	int count = 64;
-	char *binRep = new char[65];
-	while(count)
-		binRep[--count] = (num&1 ? '1': '0'), num = num >> 1;
-	binRep[64] = '\0';
-	return binRep;
-}
-
 void DESKeyGen::leftRotate(ull *n, unsigned int d) {
     *n = ((*n) << d)|((*n) >> (28 - d)); 
 }
