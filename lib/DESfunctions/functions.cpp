@@ -26,9 +26,20 @@ char *DES::xorBlocks(char *arr1, char *arr2, int n)
     return ans;
 }
 
-// char *DES::expansionPermutation(char *rightBlock)
-// {
-//     char *ans = new char[49];
-//     // for(int itr = 0; itr < 48; itr++)
-//     // ans[itr] = expan
-// }
+char* DES::substr(char* arr, int begin, int len)
+{
+    char* res = new char[len];
+    for (int i = 0; i < len; i++)
+        res[i] = *(arr + begin + i);
+    res[len] = '\0';
+    return res;
+}
+
+char *DES::expansionPermutation(char *rightBlock)
+{
+    char *ans = new char[49];
+    for(int itr = 0; itr < 48; itr++)
+        ans[itr] = rightBlock[expansionBox[itr] - 1];
+    ans[49] = '\0';
+    return ans;
+}
