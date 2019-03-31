@@ -1,6 +1,8 @@
 #ifndef BOXES
 #define BOXES
 
-extern int ip[64], s[8][4][16], permutation[32], fp[64];
+const extern int ipBox[64], fpBox[64], sBox[8][4][16], 
+permutationBox[32], 
+expansionBox[48];
 
 #endif

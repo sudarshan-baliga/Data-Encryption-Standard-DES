@@ -12,7 +12,11 @@ namespace DES {
   
     // str is expected to be of length 48
     // output is of size 32
-    char *sBox(char *str);
+    char* sBoxFunction(char *str);
+
+    char* expansionPermutation(char *righBlock);
+
+    char* substr(char *arr, int begin, int len);
 
 } // DES
 
