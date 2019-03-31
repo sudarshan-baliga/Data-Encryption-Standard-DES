@@ -21,7 +21,7 @@ namespace DES {
     char* feistalFn(char *str, char *key);
 
     // one DES round(to be executed 16 times)
-    char* DESround(char *str, char *key, bool finalRound);
+    char* DESround(char *str, char *key);
 
 } // DES
 

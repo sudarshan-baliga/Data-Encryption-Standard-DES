@@ -1,14 +1,13 @@
 #include <iostream>
 #include <string.h>
 #include "./lib/keygen/keygen.h"
-#include "./lib/parser/parser.h"
 #include "./lib/DESfunctions/functions.h"
 #include "./lib/utils/utils.h"
 #define endl "\n";
 using namespace std;
 using namespace DES;
 
-char* DesMachine(char *plainText, bool decipher)
+char* DesMachine(char *inText, bool decipher)
 {
     // steps:
     //generate the keys
@@ -17,15 +16,19 @@ char* DesMachine(char *plainText, bool decipher)
     if(decipher)
         reverseKeys(keys);
     // IP
-    char *text = getPermutation(plainText, "initial");
+    char *text = getPermutation(inText, "initial");
     // 16 time fiestal round
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < 16; i++)
     {
-        text = DESround(text, Utils::numTobin(keys[i], 48), false);
+        text = DESround(text, Utils::numTobin(keys[i], 48));
         cout << "round " << i + 1 << " result " << text << endl;
     }
-    //no left and right swap in final round
-    text = DESround(text, Utils::numTobin(keys[15], 48), false);
+    // swapping left and right part
+    char *leftPart = Utils::substr(text, 0, 32);
+    char *rightPart = Utils::substr(text, 32, 32);
+    strcpy(text, rightPart);
+    strcpy(text+32, leftPart);
+
     // FP
     text = getPermutation(text, "final");
     cout << "round 16 result " << text << endl;
@@ -35,9 +38,34 @@ char* DesMachine(char *plainText, bool decipher)
 int main()
 {
     char *plainText, *cipherText, *decipheredText;
-    plainText = Utils::strTobin("sachinpr");
+    // plainText = Utils::strTobin("sachinpr");
+    plainText = (char*)"0000000100100011010001010110011110001001101010111100110111101111";
+    cout << "Plain text: " << plainText << endl;
+
     cipherText = DesMachine(plainText, false);
-    cout << "Deciphering" << endl;
-    decipheredText = DesMachine(plainText, true);
-    cout << decipheredText << endl;
+    cout << "cipher text: " << cipherText << endl;
+
+    cout << "\n\nDeciphering" << endl;
+
+    decipheredText = DesMachine(cipherText, true);
+    cout << "decipher text: " << decipheredText << endl;
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

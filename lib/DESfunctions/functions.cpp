@@ -5,6 +5,9 @@
 #include "functions.h"
 #include "../utils/utils.h"
 
+#include <iostream>
+using namespace std;
+
 using namespace Utils;
 
 char *DES::getPermutation(char *arr, const char *type)
@@ -112,23 +115,22 @@ char *DES::feistalFn(char *str, char *key)
 // newLeft = Right (if not 16th round)
 // newRight = left xor FF(right)
 
-char *DES::DESround(char *str, char *key, bool finalRound)
+char *DES::DESround(char *str, char *key)
 {
     // str should be 64bit in size
     char *newStr = new char[65];
     char *leftBlock = Utils::substr(str, 0, 32);
     char *rightBlock = Utils::substr(str, 32, 32);
     char *temp;
+
+    temp = rightBlock;
     rightBlock = Utils::xorBlocks(leftBlock, feistalFn(rightBlock, key), 32);
-    if (!finalRound)
-    {
-        temp = leftBlock;
-        leftBlock = rightBlock;
-        rightBlock = temp;
-    }
+    leftBlock = temp;
+ 
     strcpy(newStr, leftBlock);
     strcpy(newStr + 32, rightBlock);
     newStr[64] = '\0';
+
     return newStr;
 }
 
