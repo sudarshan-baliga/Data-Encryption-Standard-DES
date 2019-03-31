@@ -51,3 +51,4 @@ char* Utils::strTobin(const char* message) {
     bits[numBits] = '\0';
     return bits;
 }
+

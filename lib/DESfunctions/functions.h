@@ -12,6 +12,8 @@ namespace DES {
     // output is of size 32
     char* sBoxFunction(char *str);
 
+    void reverseKeys(unsigned long long *keys);
+
     char* expansionPermutation(char *righBlock);
     
     char* FFfinalPermuatation(char *str);
@@ -20,7 +22,6 @@ namespace DES {
 
     // one DES round(to be executed 16 times)
     char* DESround(char *str, char *key, bool finalRound);
-
 
 } // DES
 

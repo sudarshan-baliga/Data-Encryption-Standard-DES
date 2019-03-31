@@ -1,3 +1,4 @@
+
 #include <string.h>
 #include <string>
 #include "../boxes/boxes.h"
@@ -53,6 +54,19 @@ char *DES::sBoxFunction(char *str)
     return _ans;
 }
 
+void DES::reverseKeys(unsigned long long *keys)
+{
+    int start = 0, end = 15, temp;
+    while(start < end)
+    {
+        temp = keys[start];
+        keys[start] = keys[end];
+        keys[end] = temp;
+        start++;
+        end--;
+    }
+}
+
 char *DES::expansionPermutation(char *rightBlock)
 {
     char *ans = new char[49];
@@ -95,7 +109,7 @@ char *DES::feistalFn(char *str, char *key)
 // A single fiestal Round has
 // 64 bit input
 // splitting into two 32 bit parts
-// newLeft = Right
+// newLeft = Right (if not 16th round)
 // newRight = left xor FF(right)
 
 char *DES::DESround(char *str, char *key, bool finalRound)
@@ -117,3 +131,4 @@ char *DES::DESround(char *str, char *key, bool finalRound)
     newStr[64] = '\0';
     return newStr;
 }
+
