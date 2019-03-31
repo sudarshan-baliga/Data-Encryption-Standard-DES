@@ -3,7 +3,7 @@
 #include "./lib/keygen/keygen.h"
 #include "./lib/parser/parser.h"
 #include "./lib/DESfunctions/functions.h"
-
+#define endl "\n";
 using namespace std;
 using namespace DES;
 
@@ -21,4 +21,5 @@ int main()
     char arr[65] = "0000000100100011010001010110011110001001101010111100110111101111";
     cout << arr << "\n";
     cout << getIP(arr) << "\n";
+    cout << xorBlocks(arr, arr, 64) << endl;
 }
