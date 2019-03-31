@@ -5,9 +5,6 @@
 #include "functions.h"
 #include "../utils/utils.h"
 
-#include <iostream>
-using namespace std;
-
 using namespace Utils;
 
 char *DES::getPermutation(char *arr, const char *type)
@@ -59,7 +56,8 @@ char *DES::sBoxFunction(char *str)
 
 void DES::reverseKeys(unsigned long long *keys)
 {
-    int start = 0, end = 15, temp;
+    int start = 0, end = 15;
+    unsigned long long temp;
     while(start < end)
     {
         temp = keys[start];

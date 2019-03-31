@@ -1,6 +1,9 @@
 #include "utils.h"
 #include <string.h>
 
+#include <iostream>
+using namespace std;
+
 char* Utils::numTobin(unsigned long long num, int count_) {
 	int count = count_;
 	char *binRep = new char[count_+1];
@@ -52,3 +55,16 @@ char* Utils::strTobin(const char* message) {
     return bits;
 }
 
+
+char* Utils::binTostr(char *text) {
+    const int textLen = strlen(text);
+    const int ansLen = (int)textLen/8;
+    char *ans = new char[ansLen+1];
+    int ansIter = 0;
+
+    for(int i=0;i<textLen;i+=8) 
+        ans[ansIter++] = (char)Utils::binToint(Utils::substr(text, i, 8));
+
+    ans[ansLen] = '\0';
+    return ans;
+}
