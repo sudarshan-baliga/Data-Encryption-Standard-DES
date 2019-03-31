@@ -4,7 +4,7 @@ parserDir=./lib/parser
 output: ./main.o $(parserDir)/parser.o $(boxDir)/boxes.o ./main.o
 	g++ main.o parser.o boxes.o -o output
 
-box: ./lib/boxes/boxes.cpp
+box: $(boxDir)/boxes.cpp
 	g++ -c $(boxDir)/boxes.cpp
 
 parser: $(parserDir)/parser.cpp
