@@ -4,6 +4,8 @@
 #include "../boxes/boxes.h"
 #include "functions.h"
 #include "../utils/utils.h"
+#include "../keygen/keygen.h"
+
 
 using namespace Utils;
 
@@ -132,3 +134,88 @@ char *DES::DESround(char *str, char *key)
     return newStr;
 }
 
+char* DES::Des_64_Machine(char *inText, unsigned long long key, bool decipher)
+{
+    // steps:
+    //generate the keys
+    ull *keys = DESKeyGen::getKeys(key);
+
+    // if deciphering reverse the keys
+    if(decipher)
+        reverseKeys(keys);
+    
+    // IP
+    char *text = getPermutation(inText, "initial");
+    
+    // 16 time fiestal round
+    for (int i = 0; i < 16; i++)
+    {
+        text = DESround(text, numTobin(keys[i], 48));
+        // cout << "round " << i + 1 << " result " << text << endl;
+    }
+    
+    // swapping left and right part at the end(nullifying last swap)
+    char *leftPart = substr(text, 0, 32);
+    char *rightPart = substr(text, 32, 32);
+    strcpy(text, rightPart);
+    strcpy(text+32, leftPart);
+
+    // FP
+    text = getPermutation(text, "final");
+
+    return text;
+}
+
+
+DES::DesOut* DES::DesMachine(char *msg, unsigned long long key, bool enc) {
+    DES::DesOut *ans = new DES::DesOut();
+    
+    int inpLen = strlen(msg);
+    if(enc)
+        if(inpLen%8) {
+            int start = inpLen;
+            inpLen = (inpLen/8+1)*8;
+            for(int i=start;i<inpLen;++i) msg[i] = 'X';
+            msg[inpLen] = '\0';
+        }
+    
+
+    char *finalEncStr, *plainTextBin, *encBin;
+    char *fullPlainTextBin = strTobin(msg);
+    char *finalEncBin= new char[inpLen*8+1];
+
+    ans -> blockCount = (inpLen/8);
+    ans -> blockIP = new char*[inpLen/8];
+    ans -> blockOP = new char*[inpLen/8];
+
+    int iter = 0;
+    while(iter < inpLen) {
+
+        plainTextBin = substr(fullPlainTextBin, iter*8, 64);
+        ans -> blockIP[iter/8] = plainTextBin;
+
+        encBin = Des_64_Machine(plainTextBin, key, !enc);
+        ans -> blockOP[iter/8] = encBin;
+
+        strcpy(finalEncBin+iter*8, encBin);
+
+        iter += 8;
+    }      
+    finalEncBin[inpLen*8] = '\0';
+    ans -> binForm = finalEncBin;
+    ans -> txtForm = binTostr(finalEncBin);
+    ans -> in = msg;
+    return ans;
+}
+
+
+
+void DES::modifySbox(int key) {
+    for(int i=0;i<8;++i) {
+        for(int r=0;r<4;++r)
+            for(int c=0;c<16;++c)
+                sBox[i][r][c] = (
+                    (sBox[i][r][c]^key)^(sBox[i][r][c]^key^(c+1))
+                );
+    }
+}

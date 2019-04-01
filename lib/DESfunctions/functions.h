@@ -23,6 +23,18 @@ namespace DES {
     // one DES round(to be executed 16 times)
     char* DESround(char *str, char *key);
 
+    struct DesOut {
+        int blockCount;
+        char *in, *binForm, *txtForm, **blockOP, **blockIP;
+    };
+    
+    char* Des_64_Machine(char *inText, unsigned long long key, bool decipher);
+
+    
+    DesOut* DesMachine(char *msg, unsigned long long key, bool enc);
+
+    void modifySbox(int key);
+
 } // DES
 
 
