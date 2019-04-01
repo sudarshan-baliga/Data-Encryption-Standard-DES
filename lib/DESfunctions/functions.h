@@ -26,6 +26,7 @@ namespace DES {
     struct DesOut {
         int blockCount;
         char *in, *binForm, *txtForm, **blockOP, **blockIP;
+        void printState(void);
     };
     
     char* Des_64_Machine(char *inText, unsigned long long key, bool decipher);

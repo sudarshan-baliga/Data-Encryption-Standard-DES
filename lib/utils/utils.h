@@ -13,4 +13,7 @@ namespace Utils {
 
     char* xorBlocks(char* arr1, char* arr2, int n);
 
+    float getAvalanchePercentage(char *expected, char *actual, int len);
+    
+
 } // Utils

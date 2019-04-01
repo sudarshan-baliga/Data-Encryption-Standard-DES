@@ -1,6 +1,7 @@
-
+#include <stdio.h>
 #include <string.h>
 #include <string>
+
 #include "../boxes/boxes.h"
 #include "functions.h"
 #include "../utils/utils.h"
@@ -208,6 +209,28 @@ DES::DesOut* DES::DesMachine(char *msg, unsigned long long key, bool enc) {
     return ans;
 }
 
+void DES::DesOut::printState(void) {
+    // blockCount int
+   // char *in, *binForm, *txtForm, **blockOP, **blockIP;
+    
+    printf("%-15s| %s\n\n", "Input: ", this -> in);
+    int iter = 0;
+    while(iter < this -> blockCount) {
+        printf("Block %d\n", iter+1);
+        printf("%-15s| %s\n", "-->Input", this -> blockIP[iter]);
+        printf("%-15s| %s\n", "-->Output", this -> blockOP[iter]);
+        ++iter;
+    }  
+    printf("\n%-15s| %s\n", "Text form", this -> txtForm);
+    printf("%-15s| %s\n", "Binary form", this -> binForm);
+
+
+    char *dashes = new char[101];
+    memset(dashes, '-', sizeof(char)*100);
+    printf("%s\n", dashes);
+    delete dashes;
+
+}
 
 
 void DES::modifySbox(int key) {
