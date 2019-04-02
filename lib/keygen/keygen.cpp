@@ -1,4 +1,5 @@
 #include "keygen.h"
+#include "../boxes/boxes.h"
 
 void DESKeyGen::leftRotate(ull *n, unsigned int d) {
     *n = ((*n) << d)|((*n) >> (28 - d)); 

@@ -1,5 +1,5 @@
 .vscode
 *.out
 *.o
-output
+out*
 playground

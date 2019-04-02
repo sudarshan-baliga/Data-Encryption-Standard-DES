@@ -69,7 +69,7 @@ char* Utils::binTostr(char *text) {
     return ans;
 }
 
-float getAvalanchePercentage(char *expected, char *actual, int len) {
+float Utils::getAvalanchePercentage(char *expected, char *actual, int len) {
     int count = 0, iter = 0;
     while(expected[iter] != '\0') {
         if(expected[iter] != actual[iter])

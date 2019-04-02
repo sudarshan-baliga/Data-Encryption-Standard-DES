@@ -232,13 +232,30 @@ void DES::DesOut::printState(void) {
 
 }
 
+int swapOrder[4] = { 1, 2 , 3, 0};
+
+void swap(int sBox[4][16], int src, int dest) {
+    int temp;
+    for(int j = 0; j < 16;j++) 
+    {
+        temp = sBox[src][j];
+        sBox[src][j] = sBox[dest][j];
+        sBox[dest][j] = temp;
+    }
+}
 
 void DES::modifySbox(int key) {
     for(int i=0;i<8;++i) {
-        for(int r=0;r<4;++r)
-            for(int c=0;c<16;++c)
-                sBox[i][r][c] = (
-                    (sBox[i][r][c]^key)^(sBox[i][r][c]^key^(c+1))
-                );
+        swap(sBox[i],  0, 1);
+        swap(sBox[i],  1, 2);
+        swap(sBox[i],  2, 3);
+        swap(sBox[i],  3, 0);
     }
+    // for(int i=0;i<8;++i) {
+    //     for(int r=0;r<4;++r)
+    //         for(int c=0;c<16;++c)
+    //             sBox[i][r][c] = (
+    //                 (sBox[i][r][c]^key)^(sBox[i][r][c]^key^(c+1))
+    //             );
+    // }
 }

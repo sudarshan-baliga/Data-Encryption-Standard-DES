@@ -10,22 +10,24 @@
 
 using namespace std;
 
-const unsigned long long key = 12345607891;
+const unsigned long long key = STDKEY;
 
 
 int main(int argc, char *argv[])
 {   
 
-    cout << "Encypting..." << endl;
+    DES::modifySbox(112129);
+    // cout << "Encypting..." << endl;
     DES::DesOut *enc = DES::DesMachine(argv[1], key, true);
     enc -> printState();
 
-    cout << "Decrypting..." << endl;
+    // cout << "Decrypting..." << endl;
     DES::DesOut *dec = DES::DesMachine(
         enc -> txtForm, 
         key,
         false
     );
+    // cout << Utils::getAvalanchePercentage(enc -> binForm, dec -> binForm, strlen(enc -> binForm)) << endl;
     dec -> printState();
 
  
