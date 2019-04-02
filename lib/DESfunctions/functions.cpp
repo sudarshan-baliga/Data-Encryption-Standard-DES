@@ -75,7 +75,7 @@ void DES::reverseKeys(unsigned long long *keys)
 
 void DES::reverseTransposition()
 {
-    int start = 0, end = 3;
+    int start = 0, end = 15;
     int temp;
     while(start < end)
     {
@@ -163,7 +163,7 @@ char* DES::Des_64_Machine(char *inText, unsigned long long key, bool decipher)
     // if deciphering reverse the keys
     if(decipher){
         reverseKeys(keys);
-        // reverseTransposition();
+        reverseTransposition();
     }
     
     // IP
@@ -273,18 +273,11 @@ void swap(int sBox[4][16], int src, int dest) {
 }
 
 void DES::modifySbox(int round) {
-    restoreOriginalSbox();
+    restoreOriginalSbox();   
     for(int i=0;i<8;++i) {
-        swap(sBox[i],  0, transpositionOrder[4][0]);
-        swap(sBox[i],  1, transpositionOrder[4][1]);
-        swap(sBox[i],  2, transpositionOrder[4][2]);
-        swap(sBox[i],  3, transpositionOrder[4][3]);
+        swap(sBox[i],  0, transpositionOrder[round][0]);
+        swap(sBox[i],  1, transpositionOrder[round][1]);
+        swap(sBox[i],  2, transpositionOrder[round][2]);
+        swap(sBox[i],  3, transpositionOrder[round][3]);
     }
-    // for(int i=0;i<8;++i) {
-    //     for(int r=0;r<4;++r)
-    //         for(int c=0;c<16;++c)
-    //             sBox[i][r][c] = (
-    //                 (sBox[i][r][c]^key)^(sBox[i][r][c]^key^(c+1))
-    //             );
-    // }
 }
