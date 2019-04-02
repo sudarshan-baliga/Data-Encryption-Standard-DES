@@ -11,7 +11,7 @@
 
 using namespace std;
 
-const unsigned long long key = 1237654098;
+const unsigned long long key = 3421423312;
 
 
 int main(int argc, char *argv[])
@@ -30,7 +30,4 @@ int main(int argc, char *argv[])
     );
     // cout << Utils::getAvalanchePercentage(enc -> binForm, dec -> binForm, strlen(enc -> binForm)) << endl;
     dec -> printState();
-    for(int i = 0; i < 4; i++)
-        cout << transpositionOrder[i] << " ";
- 
 }

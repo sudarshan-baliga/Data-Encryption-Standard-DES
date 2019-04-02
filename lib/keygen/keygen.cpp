@@ -1,5 +1,7 @@
 #include "keygen.h"
 #include "../boxes/boxes.h"
+#include <iostream>
+using namespace std;
 
 void DESKeyGen::leftRotate(ull *n, unsigned int d) {
     *n = ((*n) << d)|((*n) >> (28 - d)); 
@@ -20,8 +22,7 @@ ull DESKeyGen::compressAndpermute(ull key, const int *box, int boxSize, int inpu
 	int ignIndices[8] = {56, 48, 40, 32, 24, 16, 8, 0};
 	short tempArr[8];
 	for(int i=0;i<8;++i)
-		tempArr[i] = (key & (one_ << ignIndices[i]) != 0 ? 1 : 0);
-
+		tempArr[i] = ( (key & (one_ << ignIndices[i])) != 0 ? 1 : 0);
 	int one= 1, two = 2;
 	bool visited[4] = {0};
 	for(int i=0;i<8;i+=2) {
@@ -41,7 +42,10 @@ ull DESKeyGen::compressAndpermute(ull key, const int *box, int boxSize, int inpu
 		}
 		
 	}
-
+	cout << "transposition" << endl;
+	for(int i = 0; i < 4; i++)
+        cout << transpositionOrder[i] << " ";
+	cout << endl;
 
 	for(int i=0;i<boxSize;++i)
 		if(isNthBitSet(&key, inputBitSize-box[i]) == true)
