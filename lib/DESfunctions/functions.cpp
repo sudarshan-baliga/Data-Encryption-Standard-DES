@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <string>
+#include <iostream>
+using namespace std;
 
 #include "../boxes/boxes.h"
 #include "functions.h"
@@ -98,8 +100,9 @@ char *DES::FFfinalPermuatation(char *str)
 // xor with key
 // to sBoxes and get 32bit
 // permutation using dbox
-char *DES::feistalFn(char *str, char *key)
+char *DES::feistalFn(int round, char *str, char *key)
 {
+    modifySbox(round);
     // str should be 32 bit in size
     return FFfinalPermuatation(
         sBoxFunction(
@@ -116,7 +119,7 @@ char *DES::feistalFn(char *str, char *key)
 // newLeft = Right (if not 16th round)
 // newRight = left xor FF(right)
 
-char *DES::DESround(char *str, char *key)
+char *DES::DESround(int round, char *str, char *key)
 {
     // str should be 64bit in size
     char *newStr = new char[65];
@@ -125,7 +128,7 @@ char *DES::DESround(char *str, char *key)
     char *temp;
 
     temp = rightBlock;
-    rightBlock = Utils::xorBlocks(leftBlock, feistalFn(rightBlock, key), 32);
+    rightBlock = Utils::xorBlocks(leftBlock, feistalFn(round, rightBlock, key), 32);
     leftBlock = temp;
  
     strcpy(newStr, leftBlock);
@@ -151,7 +154,7 @@ char* DES::Des_64_Machine(char *inText, unsigned long long key, bool decipher)
     // 16 time fiestal round
     for (int i = 0; i < 16; i++)
     {
-        text = DESround(text, numTobin(keys[i], 48));
+        text = DESround(i, text, numTobin(keys[i], 48));
         // cout << "round " << i + 1 << " result " << text << endl;
     }
     
@@ -232,7 +235,14 @@ void DES::DesOut::printState(void) {
 
 }
 
-int swapOrder[4] = { 1, 2 , 3, 0};
+
+void restoreOriginalSbox()
+{
+    for(int no = 0; no < 8; no++ )
+        for(int row = 0; row < 4; row++)
+            for(int col = 0; col < 16; col++)
+                sBox[no][row][col] = originalSBox[no][row][col];
+}
 
 void swap(int sBox[4][16], int src, int dest) {
     int temp;
@@ -244,12 +254,13 @@ void swap(int sBox[4][16], int src, int dest) {
     }
 }
 
-void DES::modifySbox(int key) {
+void DES::modifySbox(int round) {
+    restoreOriginalSbox();
     for(int i=0;i<8;++i) {
-        swap(sBox[i],  0, 1);
-        swap(sBox[i],  1, 2);
-        swap(sBox[i],  2, 3);
-        swap(sBox[i],  3, 0);
+        swap(sBox[i],  0, transpositionOrder[0][0]);
+        swap(sBox[i],  1, transpositionOrder[0][1]);
+        swap(sBox[i],  2, transpositionOrder[0][2]);
+        swap(sBox[i],  3, transpositionOrder[0][3]);
     }
     // for(int i=0;i<8;++i) {
     //     for(int r=0;r<4;++r)

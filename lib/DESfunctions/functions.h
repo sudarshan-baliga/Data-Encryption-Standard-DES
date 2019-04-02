@@ -18,10 +18,10 @@ namespace DES {
     
     char* FFfinalPermuatation(char *str);
     
-    char* feistalFn(char *str, char *key);
+    char* feistalFn(int round, char *str, char *key);
 
     // one DES round(to be executed 16 times)
-    char* DESround(char *str, char *key);
+    char* DESround(int round, char *str, char *key);
 
     struct DesOut {
         int blockCount;

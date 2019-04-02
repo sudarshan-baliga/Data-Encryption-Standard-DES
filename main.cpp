@@ -16,8 +16,6 @@ const unsigned long long key = 5634127856;
 
 int main(int argc, char *argv[])
 {   
-
-    DES::modifySbox(112129);
     // cout << "Encypting..." << endl;
     DES::DesOut *enc = DES::DesMachine(argv[1], key, true);
     enc -> printState();
