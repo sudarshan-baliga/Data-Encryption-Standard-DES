@@ -4,13 +4,14 @@
 #include <time.h>
 #include "./lib/DESfunctions/functions.h"
 #include "./lib/utils/utils.h"
+#include "./lib/boxes/boxes.h"
 
 #define STDKEY 1383827165325090801
 #define endl "\n";
 
 using namespace std;
 
-const unsigned long long key = STDKEY;
+const unsigned long long key = 1237654098;
 
 
 int main(int argc, char *argv[])
@@ -29,6 +30,7 @@ int main(int argc, char *argv[])
     );
     // cout << Utils::getAvalanchePercentage(enc -> binForm, dec -> binForm, strlen(enc -> binForm)) << endl;
     dec -> printState();
-
+    for(int i = 0; i < 4; i++)
+        cout << transpositionOrder[i] << " ";
  
 }

@@ -16,7 +16,33 @@ void DESKeyGen::setNthBit(ull *num, int n) {
 }
 
 ull DESKeyGen::compressAndpermute(ull key, const int *box, int boxSize, int inputBitSize) {
-	ull ans = 0;
+	ull ans = 0, one_ = 1;
+	int ignIndices[8] = {56, 48, 40, 32, 24, 16, 8, 0};
+	short tempArr[8];
+	for(int i=0;i<8;++i)
+		tempArr[i] = (key & (one_ << ignIndices[i]) != 0 ? 1 : 0);
+
+	int one= 1, two = 2;
+	bool visited[4] = {0};
+	for(int i=0;i<8;i+=2) {
+		one = tempArr[i] & one;
+		two = (tempArr[i + 1] + tempArr[i + 1]) &  two;
+		if(!visited[one + two]){
+			transpositionOrder[i / 2] = one + two;
+			visited[one + two] = true;
+		}
+		else
+		{
+			int idx = one + two;
+			while(visited[idx])
+				idx = (idx + 1) % 4;
+			transpositionOrder[i / 2] = idx;
+			visited[idx] = true;
+		}
+		
+	}
+
+
 	for(int i=0;i<boxSize;++i)
 		if(isNthBitSet(&key, inputBitSize-box[i]) == true)
 			setNthBit(&ans, boxSize-1-i);
