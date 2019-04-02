@@ -73,6 +73,22 @@ void DES::reverseKeys(unsigned long long *keys)
     }
 }
 
+void DES::reverseTransposition()
+{
+    int start = 0, end = 3;
+    int temp;
+    while(start < end)
+    {
+       for(int i = 0; i < 4; i++)
+       {
+           temp = transpositionOrder[start][i];
+           transpositionOrder[start][i] = transpositionOrder[end][i];
+           transpositionOrder[end][i] = temp;
+       }
+       start++, end--;
+    }
+}
+
 char *DES::expansionPermutation(char *rightBlock)
 {
     char *ans = new char[49];
@@ -145,8 +161,10 @@ char* DES::Des_64_Machine(char *inText, unsigned long long key, bool decipher)
     ull *keys = DESKeyGen::getKeys(key);
 
     // if deciphering reverse the keys
-    if(decipher)
+    if(decipher){
         reverseKeys(keys);
+        // reverseTransposition();
+    }
     
     // IP
     char *text = getPermutation(inText, "initial");
@@ -257,10 +275,10 @@ void swap(int sBox[4][16], int src, int dest) {
 void DES::modifySbox(int round) {
     restoreOriginalSbox();
     for(int i=0;i<8;++i) {
-        swap(sBox[i],  0, transpositionOrder[0][0]);
-        swap(sBox[i],  1, transpositionOrder[0][1]);
-        swap(sBox[i],  2, transpositionOrder[0][2]);
-        swap(sBox[i],  3, transpositionOrder[0][3]);
+        swap(sBox[i],  0, transpositionOrder[4][0]);
+        swap(sBox[i],  1, transpositionOrder[4][1]);
+        swap(sBox[i],  2, transpositionOrder[4][2]);
+        swap(sBox[i],  3, transpositionOrder[4][3]);
     }
     // for(int i=0;i<8;++i) {
     //     for(int r=0;r<4;++r)

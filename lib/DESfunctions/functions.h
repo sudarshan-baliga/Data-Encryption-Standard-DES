@@ -14,6 +14,8 @@ namespace DES {
 
     void reverseKeys(unsigned long long *keys);
 
+    void reverseTransposition();
+    
     char* expansionPermutation(char *righBlock);
     
     char* FFfinalPermuatation(char *str);
