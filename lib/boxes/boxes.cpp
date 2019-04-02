@@ -78,4 +78,4 @@ const int expansionBox[48]=
     }; 
 
 
-int transpositionOrder[4];
+int transpositionOrder[16][4];

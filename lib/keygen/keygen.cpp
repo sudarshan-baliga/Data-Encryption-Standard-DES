@@ -17,9 +17,10 @@ void DESKeyGen::setNthBit(ull *num, int n) {
     (*num) = (*num)|(one << n);
 }
 
-ull DESKeyGen::compressAndpermute(ull key, const int *box, int boxSize, int inputBitSize) {
-	ull ans = 0, one_ = 1;
-	int ignIndices[8] = {56, 48, 40, 32, 24, 16, 8, 0};
+void genTransposition(int round, ull key)
+{
+	ull  one_ = 1;
+	int ignIndices[8] = {0, 1, 2, 3, 44,45,46,47};
 	short tempArr[8];
 	for(int i=0;i<8;++i)
 		tempArr[i] = ( (key & (one_ << ignIndices[i])) != 0 ? 1 : 0);
@@ -29,7 +30,7 @@ ull DESKeyGen::compressAndpermute(ull key, const int *box, int boxSize, int inpu
 		one = tempArr[i] & one;
 		two = (tempArr[i + 1] + tempArr[i + 1]) &  two;
 		if(!visited[one + two]){
-			transpositionOrder[i / 2] = one + two;
+			transpositionOrder[round][i / 2] = one + two;
 			visited[one + two] = true;
 		}
 		else
@@ -37,16 +38,19 @@ ull DESKeyGen::compressAndpermute(ull key, const int *box, int boxSize, int inpu
 			int idx = one + two;
 			while(visited[idx])
 				idx = (idx + 1) % 4;
-			transpositionOrder[i / 2] = idx;
+			transpositionOrder[round][i / 2] = idx;
 			visited[idx] = true;
 		}
 		
 	}
-	cout << "transposition" << endl;
+	cout << "transposition for round  " << round << endl;
 	for(int i = 0; i < 4; i++)
-        cout << transpositionOrder[i] << " ";
+        cout << transpositionOrder[round][i] << " ";
 	cout << endl;
+}
 
+ull DESKeyGen::compressAndpermute(ull key, const int *box, int boxSize, int inputBitSize) {
+	ull ans = 0;
 	for(int i=0;i<boxSize;++i)
 		if(isNthBitSet(&key, inputBitSize-box[i]) == true)
 			setNthBit(&ans, boxSize-1-i);
@@ -73,20 +77,21 @@ ull* DESKeyGen::getKeys(ull key) {
 
 	// getting keys
 	for(int i=1;i<=16;++i) {
-	if(i == 1 || i == 2 || i == 9 || i == 16) {
-		leftRotate(&left, 1);
-		leftRotate(&right, 1);
-	}else {
-		leftRotate(&left, 2);
-		leftRotate(&right, 2);
-	}
-	// following two steps are needed(since we want to operate just
-	// on first 28 bits and we want to ignore rest of them)
-	left = (left&maskForRight);
-	right = (right&maskForRight);
+		if(i == 1 || i == 2 || i == 9 || i == 16) {
+			leftRotate(&left, 1);
+			leftRotate(&right, 1);
+		}else {
+			leftRotate(&left, 2);
+			leftRotate(&right, 2);
+		}
+		// following two steps are needed(since we want to operate just
+		// on first 28 bits and we want to ignore rest of them)
+		left = (left&maskForRight);
+		right = (right&maskForRight);
 
-	toCompressionBox = (left << 28) + right;
-	keys[i-1] = compressAndpermute(toCompressionBox, pc2, 48, 56);
+		toCompressionBox = (left << 28) + right;
+		keys[i-1] = compressAndpermute(toCompressionBox, pc2, 48, 56);
+		genTransposition(i-1, keys[i - 1]);
 	}
 	
 	return keys;

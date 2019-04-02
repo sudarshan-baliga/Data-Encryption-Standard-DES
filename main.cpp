@@ -11,7 +11,7 @@
 
 using namespace std;
 
-const unsigned long long key = 3421423312;
+const unsigned long long key = 5634127856;
 
 
 int main(int argc, char *argv[])
