@@ -11,14 +11,39 @@
 
 using namespace std;
 
-const unsigned long long key = 5634127856;
+const unsigned long long key = STDKEY;
 
+
+float getAvalanchePercentage(char *plainText, char *cipherText, int len) {
+    
+    const int pos = rand()%len;
+    int count = 0;
+    char newPT[len+1];
+    strcpy(newPT, plainText);
+
+    newPT[pos] = (
+        newPT[pos] == '1' ? '0' : '1'
+    );
+
+    DES::DesOut *obj = DES::DesMachine(newPT, key, true);
+    char *newCT = obj -> binForm;
+    
+    int iter = 0;
+    while(cipherText[iter] != '\0') {
+        if(cipherText[iter] != newCT[iter])
+            ++count;
+        ++iter;
+    }
+    return ((count/(float)len)*100);
+}
 
 int main(int argc, char *argv[])
 {   
+
+    srand(time(NULL));
     // cout << "Encypting..." << endl;
     DES::DesOut *enc = DES::DesMachine(argv[1], key, true);
-    enc -> printState();
+    // enc -> printState();
 
     // cout << "Decrypting..." << endl;
     DES::DesOut *dec = DES::DesMachine(
@@ -26,6 +51,11 @@ int main(int argc, char *argv[])
         key,
         false
     );
-    // cout << Utils::getAvalanchePercentage(enc -> binForm, dec -> binForm, strlen(enc -> binForm)) << endl;
-    dec -> printState();
+    cout << getAvalanchePercentage(
+        Utils::strTobin(enc -> in), 
+        enc -> binForm, 
+        strlen(enc -> binForm)
+    ) << endl;
+    // dec -> printState();
+
 }

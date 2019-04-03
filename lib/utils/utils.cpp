@@ -1,6 +1,6 @@
 #include "utils.h"
 #include <string.h>
-
+#include <time.h>
 #include <iostream>
 using namespace std;
 
@@ -67,14 +67,4 @@ char* Utils::binTostr(char *text) {
 
     ans[ansLen] = '\0';
     return ans;
-}
-
-float Utils::getAvalanchePercentage(char *expected, char *actual, int len) {
-    int count = 0, iter = 0;
-    while(expected[iter] != '\0') {
-        if(expected[iter] != actual[iter])
-            ++count;
-        ++iter;
-    }
-    return ((count/(float)len)*100);
 }

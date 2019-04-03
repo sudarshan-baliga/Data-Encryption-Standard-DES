@@ -43,10 +43,10 @@ void genTransposition(int round, ull key)
 		}
 		
 	}
-	cout << "transposition for round  " << round << endl;
-	for(int i = 0; i < 4; i++)
-        cout << transpositionOrder[round][i] << " ";
-	cout << endl;
+	// cout << "transposition for round  " << round << endl;
+	// for(int i = 0; i < 4; i++)
+  //       cout << transpositionOrder[round][i] << " ";
+	// cout << endl;
 }
 
 ull DESKeyGen::compressAndpermute(ull key, const int *box, int boxSize, int inputBitSize) {
