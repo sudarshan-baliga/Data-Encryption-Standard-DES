@@ -17,7 +17,6 @@ const unsigned long long key = STDKEY;
 float getAvalanchePercentage(char *plainText, char *cipherText, int len) {
     
     const int pos = rand()%len;
-    int count = 0;
     char newPT[len+1];
     strcpy(newPT, plainText);
 
@@ -28,34 +27,36 @@ float getAvalanchePercentage(char *plainText, char *cipherText, int len) {
     DES::DesOut *obj = DES::DesMachine(newPT, key, true);
     char *newCT = obj -> binForm;
     
-    int iter = 0;
+    int misMatchCount = 0, iter = 0;
     while(cipherText[iter] != '\0') {
         if(cipherText[iter] != newCT[iter])
-            ++count;
+            ++misMatchCount;
         ++iter;
     }
-    return ((count/(float)len)*100);
+    return ((misMatchCount/(float)len)*100);
 }
 
 int main(int argc, char *argv[])
 {   
-
     srand(time(NULL));
-    // cout << "Encypting..." << endl;
+
+    
+    // Encryption
     DES::DesOut *enc = DES::DesMachine(argv[1], key, true);
     // enc -> printState();
 
-    // cout << "Decrypting..." << endl;
-    DES::DesOut *dec = DES::DesMachine(
-        enc -> txtForm, 
-        key,
-        false
-    );
+
+
+    // Decryption
+    DES::DesOut *dec = DES::DesMachine(enc -> txtForm, key, false);
+    // dec -> printState();
+
+
+    // Avalance percentage
     cout << getAvalanchePercentage(
         Utils::strTobin(enc -> in), 
         enc -> binForm, 
         strlen(enc -> binForm)
     ) << endl;
-    // dec -> printState();
 
 }
