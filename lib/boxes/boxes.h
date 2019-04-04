@@ -6,5 +6,6 @@ permutationBox[32],
 expansionBox[48];
 
 extern int sBox[8][4][16], transpositionOrder[16][4], originalSBox[8][4][16];
+extern bool enhance;
 
 #endif

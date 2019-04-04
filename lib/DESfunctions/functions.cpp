@@ -118,7 +118,8 @@ char *DES::FFfinalPermuatation(char *str)
 // permutation using dbox
 char *DES::feistalFn(int round, char *str, char *key)
 {
-    modifySbox(round);
+    if(enhance)
+        modifySbox(round);
     // str should be 32 bit in size
     return FFfinalPermuatation(
         sBoxFunction(

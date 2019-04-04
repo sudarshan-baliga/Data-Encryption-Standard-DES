@@ -38,18 +38,29 @@ float getAvalanchePercentage(char *plainText, char *cipherText, int len) {
 
 int main(int argc, char *argv[])
 {   
+
+    bool hideDetails = false;
     srand(time(NULL));
 
-    
+    for(int i = 2; i < argc; i++)
+    {
+        if(strcmp(argv[i], "-e") == 0)
+            enhance = true;
+        if(strcmp(argv[i], "-h") == 0)
+            hideDetails = true;
+    }
+
     // Encryption
     DES::DesOut *enc = DES::DesMachine(argv[1], key, true);
-    // enc -> printState();
+    if(hideDetails == false)
+        enc -> printState();
 
 
 
     // Decryption
     DES::DesOut *dec = DES::DesMachine(enc -> txtForm, key, false);
-    // dec -> printState();
+    if(hideDetails == false)
+        dec -> printState();
 
 
     // Avalance percentage

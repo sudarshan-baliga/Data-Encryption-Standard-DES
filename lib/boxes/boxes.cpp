@@ -118,3 +118,5 @@ const int expansionBox[48]=
 
 
 int transpositionOrder[16][4];
+
+bool enhance = false;
