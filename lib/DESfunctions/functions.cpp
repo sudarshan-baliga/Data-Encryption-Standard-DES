@@ -263,22 +263,18 @@ void restoreOriginalSbox()
                 sBox[no][row][col] = originalSBox[no][row][col];
 }
 
-void swap(int sBox[4][16], int src, int dest) {
+void moveSBoxRow(int sBox[4][16], int sBoxId, int to, int from) {
     int temp;
-    for(int j = 0; j < 16;j++) 
-    {
-        temp = sBox[src][j];
-        sBox[src][j] = sBox[dest][j];
-        sBox[dest][j] = temp;
-    }
+    for(int j=0;j<16;++j) 
+        sBox[to][j] = originalSBox[sBoxId][from][j];
 }
 
 void DES::modifySbox(int round) {
     restoreOriginalSbox();   
     for(int i=0;i<8;++i) {
-        swap(sBox[i],  0, transpositionOrder[round][0]);
-        swap(sBox[i],  1, transpositionOrder[round][1]);
-        swap(sBox[i],  2, transpositionOrder[round][2]);
-        swap(sBox[i],  3, transpositionOrder[round][3]);
+        moveSBoxRow(sBox[i], i, 0, transpositionOrder[round][0]);
+        moveSBoxRow(sBox[i], i, 1, transpositionOrder[round][0]);
+        moveSBoxRow(sBox[i], i, 2, transpositionOrder[round][0]);
+        moveSBoxRow(sBox[i], i, 3, transpositionOrder[round][0]);
     }
 }

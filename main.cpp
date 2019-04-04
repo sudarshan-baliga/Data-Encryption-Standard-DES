@@ -36,18 +36,34 @@ float getAvalanchePercentage(char *plainText, char *cipherText, int len) {
     return ((misMatchCount/(float)len)*100);
 }
 
+bool isTextPassed(int argc, bool f1, bool f2) {
+    if(f1 && f2) {
+        if(argc <= 3) return false;
+        return true;
+    }else if(f1 || f2) {
+        if(argc <= 2) return false;
+        return true;
+    }else 
+        return (argc >= 2);
+}
+
 int main(int argc, char *argv[])
 {   
 
     bool hideDetails = false;
     srand(time(NULL));
 
-    for(int i = 2; i < argc; i++)
+    for(int i = 0; i < argc; i++)
     {
         if(strcmp(argv[i], "-e") == 0)
             enhance = true;
         if(strcmp(argv[i], "-h") == 0)
             hideDetails = true;
+    }
+
+    if(!isTextPassed(argc, enhance, hideDetails)) {
+        cout << 0 << endl;
+        exit(0);
     }
 
     // Encryption
