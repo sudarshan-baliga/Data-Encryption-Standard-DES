@@ -4,9 +4,9 @@ const str = "Lorem ipsum dolor sit ametasdf consectetur adipisicing elit. Totam 
 const arr = [];
 
 
-let len;
+let len = 16;
 for(let i=0;i<str.length;) {
-    len = (Math.floor(1+Math.random()*3))*8;
+    // len = (Math.floor(1+Math.random()*3))*8;
     i += len;
     arr.push(str.slice(i, i+len));
 }
@@ -15,14 +15,13 @@ for(let i=0;i<str.length;) {
 
 let count = 0, ans = 0;
 
-
 for(let i=0;i<arr.length;++i)
-    exec(`./output ${arr[i]} -h -e`, (err, stdout, stderr) => {
+    exec(`./output ${arr[i]} -h`, (err, stdout, stderr) => {
         ++count;
         if(count === arr.length) {
             console.log(`Avalance percentage: ${ans/arr.length}`);
             process.exit(0);
         }
-        ans += Number.parseFloat(stdout);
+        ans += Math.round(Number.parseFloat(stdout), 1);
     })
 

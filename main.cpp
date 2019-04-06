@@ -16,7 +16,7 @@ const unsigned long long key = STDKEY;
 
 float getAvalanchePercentage(char *plainText, char *cipherText, int len) {
     
-    const int pos = rand()%len;
+    const int pos = len - 1;
     char newPT[len+1];
     strcpy(newPT, plainText);
 
