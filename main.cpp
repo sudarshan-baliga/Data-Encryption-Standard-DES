@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
             hideDetails = true;
     }
 
-    if(!isTextPassed(argc, enhance, hideDetails)) {
+    if(!isTextPassed(argc, enhance, hideDetails) || strlen(argv[1]) == 0) {
         cout << 0 << endl;
         exit(0);
     }

@@ -12,6 +12,7 @@ namespace Utils {
     char* substr(char *arr, int begin, int len);
 
     char* xorBlocks(char* arr1, char* arr2, int n);
-    
+
+    int* binToAscii(char* binArr, int len);    
 
 } // Utils

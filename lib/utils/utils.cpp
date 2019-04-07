@@ -68,3 +68,11 @@ char* Utils::binTostr(char *text) {
     ans[ansLen] = '\0';
     return ans;
 }
+
+
+int* Utils::binToAscii(char* binArr, int len) {
+    int *arr = new int[len/8];
+    for(int i=0;i<len;i+=8)
+        arr[i/8] = Utils::binToint(Utils::substr(binArr, i, 8));    
+    return arr;
+}

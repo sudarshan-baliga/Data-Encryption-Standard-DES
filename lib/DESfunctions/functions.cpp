@@ -233,7 +233,7 @@ DES::DesOut* DES::DesMachine(char *msg, unsigned long long key, bool enc) {
 
 void DES::DesOut::printState(void) {
     // blockCount int
-   // char *in, *binForm, *txtForm, **blockOP, **blockIP;
+    char *in, *binForm, *txtForm, **blockOP, **blockIP;
     
     printf("%-15s| %s\n\n", "Input: ", this -> in);
     int iter = 0;
@@ -245,7 +245,6 @@ void DES::DesOut::printState(void) {
     }  
     printf("\n%-15s| %s\n", "Text form", this -> txtForm);
     printf("%-15s| %s\n", "Binary form", this -> binForm);
-
 
     char *dashes = new char[101];
     memset(dashes, '-', sizeof(char)*100);
